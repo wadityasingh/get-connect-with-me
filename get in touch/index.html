@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aditya Singh</title>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:radial-gradient(circle,#020915,#0f172a);
+  color:white;
+}
+
+/* CARD */
+.card{
+  width:95%;
+  max-width:1000px;
+  height:85vh;
+  display:flex;
+  border-radius:20px;
+  overflow:hidden;
+  background:rgba(255,255,255,0.05);
+  backdrop-filter:blur(15px);
+  box-shadow:0 0 40px rgba(56,189,248,0.2);
+}
+
+/* LEFT */
+.left{
+  width:35%;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  border-right:1px solid rgba(255,255,255,0.08);
+}
+
+.left img{
+  width:170px;
+  height:170px;
+  border-radius:50%;
+  border:3px solid #38bdf8;
+  box-shadow:0 0 25px #38bdf8;
+}
+
+.left h2{
+  margin-top:15px;
+}
+
+.left span{
+  color:#38bdf8;
+}
+
+/* RIGHT */
+.right{
+  width:65%;
+  padding:35px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+
+.name{
+  font-size:26px;
+}
+
+.name span{
+  color:#38bdf8;
+}
+
+.typing{
+  color:#38bdf8;
+  margin:10px 0;
+}
+
+/* MESSAGE OPTIONS */
+.options{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin:15px 0;
+}
+
+.option-btn{
+  padding:6px 12px;
+  border-radius:20px;
+  background:rgba(56,189,248,0.2);
+  border:1px solid #38bdf8;
+  cursor:pointer;
+  font-size:12px;
+  transition:0.3s;
+}
+
+.option-btn:hover{
+  background:#38bdf8;
+  color:black;
+}
+
+/* FORM */
+form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+input,textarea{
+  padding:10px;
+  border-radius:8px;
+  border:none;
+  outline:none;
+  background:rgba(255,255,255,0.08);
+  color:white;
+}
+
+textarea{
+  height:90px;
+}
+
+/* BUTTON */
+button{
+  padding:10px;
+  border:none;
+  border-radius:8px;
+  background:linear-gradient(90deg,#38bdf8,#818cf8);
+  color:white;
+  cursor:pointer;
+  font-weight:600;
+}
+
+button:hover{
+  box-shadow:0 0 10px #38bdf8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+  <!-- LEFT -->
+  <div class="left">
+    <img src="./image.jpeg">
+    <h2>Aditya <span>Singh</span></h2>
+    <p>B.Tech CSE</p>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+
+    <div class="name">Hi, I'm <span>Aditya Singh</span></div>
+    <div class="typing"></div>
+
+    <!-- 🔥 SMART MESSAGE OPTIONS -->
+    <div class="options">
+      <div class="option-btn" onclick="fillMsg('Hi Aditya, I want to discuss a project with you.')">Project</div>
+      <div class="option-btn" onclick="fillMsg('Hello Aditya, I am interested in internship opportunities.')">Internship</div>
+      <div class="option-btn" onclick="fillMsg('Hi, I would like to collaborate with you.')">Collab</div>
+      <div class="option-btn" onclick="fillMsg('Hello Aditya, I want to connect with you.')">Connect</div>
+    </div>
+
+    <!-- FORM -->
+    <form id="contactForm">
+      <input type="text" name="name" placeholder="Your Name" required>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <textarea id="msgBox" name="message" placeholder="Write your message..."></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+
+  </div>
+
+</div>
+
+<script>
+/* EMAILJS */
+(function(){
+  emailjs.init("EzA9HPFfdc0tyeQwy");
+})();
+
+document.getElementById("contactForm").addEventListener("submit", function(e){
+  e.preventDefault();
+
+  emailjs.sendForm("service_r3slcfh","template_umatfkl",this)
+  .then(()=>{
+    alert("✅ Message Sent!");
+    this.reset();
+  })
+  .catch(()=>{
+    alert("❌ Failed");
+  });
+});
+
+/* AUTO FILL MESSAGE */
+function fillMsg(text){
+  document.getElementById("msgBox").value = text;
+}
+
+/* TYPING */
+const text = ["Web Developer", "CSE Student", "Frontend Designer"];
+let i=0,j=0,current="",isDeleting=false;
+
+function type(){
+  current=text[i];
+
+  if(!isDeleting){
+    document.querySelector(".typing").innerHTML=current.substring(0,j++);
+    if(j>current.length){
+      isDeleting=true;
+      setTimeout(type,1000);
+      return;
+    }
+  } else {
+    document.querySelector(".typing").innerHTML=current.substring(0,j--);
+    if(j<0){
+      isDeleting=false;
+      i=(i+1)%text.length;
+    }
+  }
+  setTimeout(type,100);
+}
+type();
+</script>
+
+</body>
+</html>
